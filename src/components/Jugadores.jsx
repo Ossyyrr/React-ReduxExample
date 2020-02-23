@@ -1,17 +1,17 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-function Jugadores({jugadores}){
+function Jugadores({jugadores, agregarTitular, agregarSuplente}){
     return <section>
         <h2>Jugadores</h2>
         <div className="Jugadores__container">
         {jugadores.map(j=>(    
-            <article>
+            <article key={j.id}>
                 <img src={j.foto} alt={j.nombre}></img>
                 <h3>{j.nombre}</h3>
                 <div>
-                    <button>Titular</button>
-                    <button>Suplente</button>
+                    <button onClick={()=>agregarTitular(j)}>Titular</button>
+                    <button onClick={()=>agregarSuplente(j)}>Suplente</button>
                 </div>
             </article>))  }
         </div>
@@ -22,6 +22,19 @@ const mapStateToProps = state =>({
 jugadores : state.jugadores
 })
 
-const mapDispatchToProps = dispatch => ({})
+const mapDispatchToProps = dispatch => ({
+    agregarTitular(jugador){
+        dispatch({
+            type: "AGREGAR_TITULAR",
+            jugador
+        })
+    },
+    agregarSuplente(jugador){
+        dispatch({
+            type: "AGREGAR_SUPLENTE",
+            jugador
+        })
+    }
+})
 
 export default connect(mapStateToProps, mapDispatchToProps)(Jugadores)
